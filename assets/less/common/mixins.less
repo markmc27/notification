@@ -1,0 +1,213 @@
+// LESS Mixins
+// Includes CSS3 Cross Browser prefixes, shortcuts and old browser fallbacks
+
+
+// CSS3 Columns
+
+.columns(@columns)
+{
+	-moz-column-count:@columns; /* Firefox */
+	-webkit-column-count:@columns; /* Safari and Chrome */
+	column-count:@columns;	
+}
+
+// sprite
+.sprite(@x, @y, @width, @height) {
+	background-image: url('/assets/images/sprite.png');
+    background-position: @x @y;
+    background-repeat: no-repeat;
+	width: @width;
+	height: @height;
+}
+
+// retina images 
+.retina-image(@file, @type, @size: cover, @repeat: no-repeat, @posx: 0, @posy: 0)  {
+  background-image: url('@{file}.@{type}');
+  background-repeat: @repeat;
+  background-position: @posx @posy;
+  background-size: @size;
+    @media (min--moz-device-pixel-ratio: 1.25),
+         (-webkit-min-device-pixel-ratio: 1.25),
+         (min-device-pixel-ratio: 1.25),
+         (min-resolution: 1.25dppx) {
+      background-size: @size;
+      background-image: url('@{file}@2x.@{type}');
+      background-position: @posx * 2 @posy * 2;
+    }
+}
+
+// Gradients
+.gradient (@start: #ffffff, @stop: #000000, @origin: top) {
+	background-color: @start;
+	background-image: -webkit-linear-gradient(@origin, @start, @stop);
+	background-image: -moz-linear-gradient(@origin, @start, @stop);
+	background-image: -o-linear-gradient(@origin, @start, @stop);
+	background-image: -ms-linear-gradient(@origin, @start, @stop);
+	background-image: linear-gradient(@origin, @start, @stop);
+}
+.gradient-radial (@origin: center, @start: #ffffff, @stop: #000000) {
+	background-color: @start; /* Old browsers */
+    background-image: -moz-radial-gradient(@origin, ellipse cover,  @start 0%, @stop 100%); /* FF3.6+ */
+    background-image: -webkit-gradient(radial, @origin @origin, 0px, center center, 100%, color-stop(0%,@start), color-stop(100%,@stop)); /* Chrome,Safari4+ */
+    background-image: -webkit-radial-gradient(@origin, ellipse cover,  @start 0%,@stop 100%); /* Chrome10+,Safari5.1+ */
+    background-image: -o-radial-gradient(@origin, ellipse cover,  @start 0%,@stop 100%); /* Opera 12+ */
+    background-image: -ms-radial-gradient(@origin, ellipse cover,  @start 0%,@stop 100%); /* IE10+ */
+    background-image: radial-gradient(ellipse at @origin,  @start 0%,@stop 100%); /* W3C */
+}
+
+// opacity
+.opacity (@opacity) {
+    @opacityPercentage: @opacity * 100;
+    opacity: @opacity;
+    -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=(@{opacityPercentage}))"; 
+    filter: ~"alpha(opacity = (@{opacityPercentage}))";
+}
+
+// Transitions
+
+.transition(@element: all, @duration:0.3s, @delay:0s, @ease: ease-in-out)
+{
+	-o-transition: @element @duration @delay @ease;
+	-webkit-transition: @element @duration @delay @ease;
+	-moz-transition: @element @duration @delay @ease;
+	//-ms-transition: @element @duration @delay @ease;
+	transition: @element @duration @delay @ease;
+}
+
+.translate(@x, @y) {
+    -moz-transform: translate(@x,@y);
+    -ms-transform: translate(@x,@y);
+    -o-transform: translate(@x,@y);
+    -webkit-transform: translate(@x,@y);
+    transform: translate(@x,@y);
+}
+
+// Size
+
+.size(@width, @height) {
+	width: @width;
+	height: @height;
+}
+
+// Box Sizing
+
+.box-sizing(@box-sizing: border-box) {
+	-moz-box-sizing: @box-sizing;
+	-webkit-box-sizing: @box-sizing; 
+	box-sizing: @box-sizing;
+}
+
+// Clearfix IE7+
+
+.clearfix()
+{
+	clear:both;
+	-ms-zoom: 1;
+    zoom: 1;
+
+	&:before,
+	&:after {
+	    content: "";
+	    display: table;
+	}
+	&:after {
+	    clear: both;
+	}
+}
+
+// Filters - Chrome 18+
+
+.filter(@filter)
+{
+	-moz-filter: @filter;
+	-webkit-filter: @filter;
+	-ms-filter: @filter;
+}
+
+.grayFilter()
+{
+	-moz-filter:  ~"grayscale(100%)";
+	-webkit-filter:  ~"grayscale(100%)";
+	-ms-filter:  ~"grayscale(100%)";
+}
+
+// Inline Block Fallback
+
+.inline-block(@valign: top)
+{
+	display:inline-block;
+	zoom: 1;
+    *display: inline;
+    vertical-align:@valign;
+}
+
+// Inline Block Spacing
+
+.inline-block-spacing()
+{
+	font-size:0;
+}
+
+// Font Size based on 10px on body
+
+.font-size(@rem)
+{
+	font-size:@rem * 1px;
+	font-size:@rem / 10rem;
+}
+
+.line-height(@rem)
+{
+	line-height:@rem * 1px;
+	line-height:@rem / 10rem;
+}
+
+// Colours with RGBA Fallback
+
+//Kudos to http://dan.cx/blog/2012/05/rgba-in-ie
+.background-color(@colour, @alpha: 1)
+{
+    background-color: @colour;
+	background-color: hsla(hue(@colour), saturation(@colour), lightness(@colour), @alpha);
+}
+
+.color(@colour, @alpha: 1)
+{
+	color: @colour;
+    color: hsla(hue(@colour), saturation(@colour), lightness(@colour), @alpha);    
+}
+
+
+// Minimum Height Fallback
+
+.min-height(@pixels) {
+	min-height: @pixels;
+	height: auto !important;
+	height: @pixels;
+}
+
+	
+// hide content from screen but remain visible to screen readers
+.hide-element() {
+    position: absolute;
+    top:0;
+    left:-999em;
+}
+
+// remove native styling of form elements e.g. select tag
+.appearance-none() {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    appearance:none;
+   
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+// Rounded
+.rounded {
+    border-radius:1000px;
+    overflow:hidden;
+}

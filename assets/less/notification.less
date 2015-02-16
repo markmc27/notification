@@ -1,0 +1,53 @@
+﻿// Mix-ins
+.borderRadius(@radius) {
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.boxShadow(@boxShadow) {
+	-moz-box-shadow: @boxShadow;
+	-webkit-box-shadow: @boxShadow;
+	box-shadow: @boxShadow;
+}
+
+.opacity(@opacity) {
+	@opacityPercent: @opacity * 100;
+	opacity: @opacity;
+	-ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{opacityPercent})";
+	filter: ~"alpha(opacity=@{opacityPercent})";
+}
+
+.wordWrap(@wordWrap: break-word) {
+	-ms-word-wrap: @wordWrap;
+	word-wrap: @wordWrap;
+}
+
+// Variables
+@black: #000000;
+@grey: #999999;
+@light-grey: #CCCCCC;
+@white: #FFFFFF;
+@near-black: #030303;
+@green: #51A351; 
+@red: #BD362F;
+@blue: #2F96B4;
+@orange: #F89406;
+
+// Styles
+.notification__container{
+	position: fixed;
+	z-index: 9999;
+
+	.notification__item{
+		position: relative;
+		overflow: hidden;
+		margin: 0 0 6px;
+		padding: 15px 15px 15px 50px;
+		width: 300px;
+		background-position: 15px center;
+		background-repeat: no-repeat;
+		color: @red;
+		.opacity(0.8);
+	}
+}

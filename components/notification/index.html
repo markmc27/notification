@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Progress bar</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script type="text/javascript">
+            var htmlTag = document.getElementsByTagName("html")[0];
+
+            htmlTag.className = htmlTag.className.replace(/(^|\s)no-js(?!\S)/, '$1js');
+
+        </script>
+
+        <link rel="stylesheet" href="/build/css/styles.css">
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="page notification-page">
+                <h1 class="page-title">Progress bar</h1>
+                <hr />
+                <div class="progress-bar">
+                    <p class="status-description">Your current progress: <span>step {{current}} of {{totalSteps}}</span></p>
+                    <div class="progress-bar__content">
+                        <div class="progress"></div>
+                        <ol aria-hidden="true" class="progress-bar__list">
+                            <li class="progress-bar__list-item"><div class="progress-bar__list-item-container"><span class="progress-bar__section-indicator"></span><span class="progress-bar__section-name">Room</span></div></li>
+                            <li class="progress-bar__list-item"><div class="progress-bar__list-item-container"><span class="progress-bar__section-indicator"></span><span class="progress-bar__section-name">Extras</span></div></li>
+                            <li class="progress-bar__list-item"><div class="progress-bar__list-item-container"><span class="progress-bar__section-indicator"></span><span class="progress-bar__section-name">Dining</span></div></li>
+                            <li class="progress-bar__list-item"><div class="progress-bar__list-item-container"><span class="progress-bar__section-indicator"></span><span class="progress-bar__section-name">Your Details</span></div></li>
+                            <li class="progress-bar__list-item progress-bar__list-item--current"><div class="progress-bar__list-item-container"><span class="progress-bar__section-indicator"></span><span class="progress-bar__section-name">Payment</span></div></li>
+                            <li class="progress-bar__list-item"><div class="progress-bar__list-item-container"><span class="progress-bar__section-indicator"></span><span class="progress-bar__section-name">Confirmation</span></div></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="/assets/js/libs/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/assets/js/libs/jquery.hammer.js"></script>
+        <script type="text/javascript" src="/assets/js/libs/jquery.imagesLoaded.js"></script>
+        <script type="text/javascript" src="/assets/js/libs/jquery.smartresize.js"></script>
+        <script type="text/javascript" src="/assets/js/libs/outline.js"></script>
+        <script type="text/javascript" src="/assets/js/helpers/helpers.js"></script>
+        <script type="text/javascript" src="/assets/js/modules/bookingForm.js"></script>
+        <script type="text/javascript" src="/assets/js/modules/notification.js"></script>
+        <script type="text/javascript" src="/assets/js/modules/form.js"></script>
+        <script type="text/javascript" src="/assets/js/modules/jquery.stepper.js"></script>
+        <script type="text/javascript" src="/assets/js/modules/progressBar.js"></script>
+        <script type="text/javascript" src="/assets/js/modules/bookingDetailsComponent.js"></script>
+
+        <script type="text/javascript" src="/assets/js/app.js"></script>
+
+    </body>
+</html>
