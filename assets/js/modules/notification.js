@@ -17,15 +17,29 @@ window.APP = (function (module, $) {
 
     };
 
-    var currentSection = 5; // assuming this will come from angular
+    var currentNotification = 1; // assuming this will come from angular
 
     function addNotification(){
-        $('.notification__container').append('<div class="notification__item"> test</div>')
+        $('.notification__container').append('<div class="notification__item">' + currentNotification++ + '</div>');
+        var $notification = $('.notification__item');
+        $notification.addClass('animated fadeInUp');
+        setTimeout(function() {
+            $notification.addClass('fadeOutUp');
+            $notification.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', removeNotification($notification));
+        }, 3000);
+
+    };
+
+    function removeNotification($el){
+        setTimeout(function(){
+            $el.remove();
+        }, 1000)
     };
 
     var _bindEvents = function() {
         m.notification.$button.on("click", function(e){
             addNotification();
+
         });
     };
 
