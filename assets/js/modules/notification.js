@@ -12,6 +12,8 @@ window.APP = (function (module, $) {
         var container = $('body').append('<div class="notification__container"> </div>');
         $('.notification-page').append('<button class="add-notification">Add button</button>');
         m.notification.$button = $('.add-notification');
+        m.notification.$container = $('.notification__container');
+
         console.log(m.notification.$button);
 
     };
@@ -19,26 +21,34 @@ window.APP = (function (module, $) {
     var currentNotification = 1; // assuming this will come from angular
 
     function addNotification(){
-        $('.notification__container').append('<div class="notification__item">' + currentNotification++ + '</div>');
-        var $notification = $('.notification__item');
-        $notification.addClass('animated fadeInUp');
+        var $notificationItem = $('<div class="notification__item">' + currentNotification++ + '<button class="close">remove me</button></div>');
+        $notificationItem.css({"display" : "none"}).appendTo($('.notification__container')).slideDown(500, function(){
+            $(this).addClass('notification__item--show');
+        });
+
+        //auto remove
         setTimeout(function() {
-            $notification.addClass('fadeOutUp');
-            $notification.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', removeNotification($notification));
+            removeNotification($notificationItem);
         }, 3000);
 
     };
 
     function removeNotification($el){
-        setTimeout(function(){
-            $el.remove();
-        }, 1000)
+        $el.fadeOut(500, function(){
+            this.remove()});
     };
 
     var _bindEvents = function() {
         m.notification.$button.on("click", function(e){
             addNotification();
+        });
 
+                //close event
+        m.notification.$container.on("click", '.close' , function(e){
+            e.stopPropagation();
+            $(this).parent().fadeOut(500, function(){
+                $(this).remove();
+            });
         });
     };
 

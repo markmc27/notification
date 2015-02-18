@@ -23,6 +23,13 @@
 	word-wrap: @wordWrap;
 }
 
+.transition(@length){
+	 -webkit-transition: all @length ease-in-out;
+	 -moz-transition: all @length ease-in-out;
+	 -o-transition: all @length ease-in-out;
+	 transition: all @length ease-in-out;
+}
+
 // Variables
 @black: #000000;
 @grey: #999999;
@@ -48,6 +55,11 @@
 		background-position: 15px center;
 		background-repeat: no-repeat;
 		color: @red;
+		.opacity(0);
+		.transition(2s);
+	}
+
+	.notification__item--show{
 		.opacity(0.8);
 	}
 }
