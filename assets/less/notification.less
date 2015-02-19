@@ -23,11 +23,11 @@
 	word-wrap: @wordWrap;
 }
 
-.transition(@length){
-	 -webkit-transition: all @length ease-in-out;
-	 -moz-transition: all @length ease-in-out;
-	 -o-transition: all @length ease-in-out;
-	 transition: all @length ease-in-out;
+.transition(@property: all, @length){
+	 -webkit-transition: @property @length ease-in-out;
+	 -moz-transition:  @property @length ease-in-out;
+	 -o-transition: @property @length ease-in-out;
+	 transition: @property @length ease-in-out;
 }
 
 // Variables
@@ -55,11 +55,19 @@
 		background-position: 15px center;
 		background-repeat: no-repeat;
 		color: @red;
-		.opacity(0);
-		.transition(2s);
+		.opacity(0); 
+
+		.close{
+			position: absolute;
+			top: 2px;
+			right: 2px;
+		}
 	}
 
 	.notification__item--show{
 		.opacity(0.8);
+		.transition(opactity, 2s);
+
 	}
+
 }

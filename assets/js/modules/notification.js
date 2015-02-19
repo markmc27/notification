@@ -21,9 +21,9 @@ window.APP = (function (module, $) {
     var currentNotification = 1; // assuming this will come from angular
 
     function addNotification(){
-        var $notificationItem = $('<div class="notification__item">' + currentNotification++ + '<button class="close">remove me</button></div>');
-        $notificationItem.css({"display" : "none"}).appendTo($('.notification__container')).slideDown(500, function(){
-            $(this).addClass('notification__item--show');
+        var $notificationItem = $('<div class="notification__item">' + currentNotification++ + '<button class="close-button" role="button">x</button></div>');
+        $notificationItem.css({"display" : "none"}).addClass('notification__item--show').appendTo($('.notification__container')).slideDown(500, function(){
+            // $(this).addClass('notification__item--show');
         });
 
         //auto remove
