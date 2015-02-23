@@ -13,7 +13,7 @@ window.APP = (function (module, $) {
         $('.notification-page').append('<button class="add-notification">Add button</button>');
         m.notification.$button = $('.add-notification');
         m.notification.$container = $('.notification__container');
-
+        m.notification.showTime = 10000;
         console.log(m.notification.$button);
 
     };
@@ -22,20 +22,30 @@ window.APP = (function (module, $) {
 
     function addNotification(){
         var $notificationItem = $('<div class="notification__item">' + currentNotification++ + '<button class="close-button" role="button">x</button></div>');
-        $notificationItem.css({"display" : "none"}).addClass('notification__item--show').appendTo($('.notification__container')).slideDown(500, function(){
-            // $(this).addClass('notification__item--show');
-        });
+        $notificationItem.css({"display" : "none"}).css('opacity', 0).addClass('notification__item--show').appendTo($('.notification__container')).slideDown(500)
+                                                                                                                                .animate(
+                                                                                                                                        { opacity: 1 },
+                                                                                                                                        { queue: false, 
+                                                                                                                                          duration: 300,
+                                                                                                                                          complete: function(){
+                                                                                                                                            removeNotification($notificationItem, m.notification.showTime)
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                      );
 
-        //auto remove
-        setTimeout(function() {
-            removeNotification($notificationItem);
-        }, 3000);
+        // //auto remove
+        // setTimeout(function() {
+        //     removeNotification($notificationItem);
+        // }, 3000);
 
     };
 
-    function removeNotification($el){
-        $el.fadeOut(500, function(){
-            this.remove()});
+    function removeNotification($el, delay){
+        setTimeout(function(){
+            $el.fadeOut(500, function(){
+                this.remove();
+            });
+        }, delay);
     };
 
     var _bindEvents = function() {
@@ -44,7 +54,7 @@ window.APP = (function (module, $) {
         });
 
                 //close event
-        m.notification.$container.on("click", '.close' , function(e){
+        m.notification.$container.on("click", '.close-button' , function(e){
             e.stopPropagation();
             $(this).parent().fadeOut(500, function(){
                 $(this).remove();

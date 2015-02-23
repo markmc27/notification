@@ -13,7 +13,7 @@ module.exports = function (grunt) {
                     sourceMapRootpath: '/'
                 },
                 files: {
-                    "build/css/styles.css": "assets/less/styles.less"                }
+                    "build/css/styles.css": "assets/less/styles.less"}
             }
         },
         imagemin: {
