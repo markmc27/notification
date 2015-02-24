@@ -19,7 +19,10 @@
 			notificationClass: 'notification__item',
 			addButtonClass: 'add-notification',
 			showTime: 3000,
-			fadeOutTime: 1000,
+			exitTime: 1000,
+			entranceTime: 1000,
+			entranceAnimation: 'slideUp',
+
 		}, 
 		pluginName = 'my_notification',
 		settings = {};
@@ -32,6 +35,23 @@
 		        settings.$addButton = $('.' + settings.addButtonClass);
 	        }
     	};
+
+	    var _bindEvents = function() {
+	    	debugger;
+	    	if(settings.hasOwnProperty('$addButton')){
+		        settings.$addButton.on("click", function(e){
+	            	addNotification();
+	        	});
+	    	}
+
+            //close event
+	        settings.$container.on("click", '.close-button' , function(e){
+	            e.stopPropagation();
+	            $(this).parent().fadeOut(500, function(){
+	                $(this).remove();
+	            });
+	        });
+    };
 
 
 		// The actual plugin constructor
@@ -64,18 +84,34 @@
 						// call them like so: this.yourOtherFunction(this.element, this.settings).
 						setupLayout(this.$element, this.settings);
 						settings = this.settings;
+						_bindEvents();
 				},
 				addNotification: function () {
-						// some logic
     				var $notificationItem = $('<div class="notification__item">' + 'Text' + '<button class="close-button" role="button">x</button></div>');
-        			$notificationItem.css({"display" : "none"}).css('opacity', 0).addClass('notification__item--show').appendTo($('.notification__container')).slideDown(500)
-                                                                                                                                .animate(
-                                                                                                                                        { opacity: 0.8 },
-                                                                                                                                        { queue: false, 
-                                                                                                                                          duration: 300,
-                                                                                                                                          complete: this.removeNotification($notificationItem)
-                                                                                                                                        }
-                                                                                                                                     );
+					if(this.settings.entranceAnimation == 'slideLeft'){
+						// some logic
+        				$notificationItem.addClass('notification__item--show notification__item--slide-left').css('opacity', 0)
+										    .appendTo($('.notification__container'))
+											.animate({opacity: 0.8, left: '0'}, 
+												     {queue: false, 
+												      duration: settings.entranceTime,
+												      complete: this.removeNotification($notificationItem)
+												  	 }
+												     );
+					}
+					else{
+        				$notificationItem.css({"display" : "none"}).css('opacity', 0)
+										    .addClass('notification__item--show')
+										    .appendTo($('.notification__container')).slideDown(500)
+                                            .animate(
+                                                    { opacity: 0.8 },
+                                                    { queue: false, 
+                                                      duration: 300,
+                                                      complete: this.removeNotification($notificationItem)
+                                                    }
+                                                 );
+					}
+					
 
 				},
 				removeNotification: function($el){
@@ -83,8 +119,8 @@
 			            $el.animate(
 									{ opacity: 0 },
 									{ queue: false, 
-									duration: settings.fadeOutTime,
-									complete: function(){debugger; $(this).remove()}
+									duration: settings.exitTime,
+									complete: function(){$(this).remove()}
 									}
 								);
 			        }, settings.showTime);
