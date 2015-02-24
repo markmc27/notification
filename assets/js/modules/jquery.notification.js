@@ -18,31 +18,34 @@
 			containerClass: 'notification__container',
 			notificationClass: 'notification__item',
 			addButtonClass: 'add-notification',
-			showTime: 3000
+			showTime: 3000,
+			fadeOutTime: 1000,
 		}, 
-		pluginName = 'my_notification';
+		pluginName = 'my_notification',
+		settings = {};
 
 	    var setupLayout = function ($el, settings) {
-	    	debugger;
-	        var container = settings.$container.append('<div class="' + settings.containerClass +'"> </div>');
+	        var container = settings.$element.append('<div class="' + settings.containerClass +'"> </div>');
 	        //$('.notification-page').append('<button class="add-notification">Add button</button>');
+	        settings.$container = $('.' + settings.containerClass);	        
 	        if(settings.addButtonClass){
-		        this.$addButton = $('.' + settings.addButtonClass);
-		        this.$container = $('.' + settings.containerClass);
+		        settings.$addButton = $('.' + settings.addButtonClass);
 	        }
     	};
 
 
 		// The actual plugin constructor
 		function Notify ( element, options ) {
-				this.$element = $(element);
-				this.$container = $(element);
 				// jQuery has an extend method which merges the contents of two or
 				// more objects, storing the result in the first object. The first object
 				// is generally empty as we don't want to alter the default options for
 				// future instances of the plugin
 				this.settings = $.extend({}, defaults, options );
 				this._defaults = defaults;
+
+				this.settings.$element = $(element);
+				//this.settings.$container = $(element);
+
 				this.init(this);
 		}
 
@@ -60,39 +63,50 @@
 						// you can add more functions like the one below and
 						// call them like so: this.yourOtherFunction(this.element, this.settings).
 						setupLayout(this.$element, this.settings);
+						settings = this.settings;
 				},
 				addNotification: function () {
 						// some logic
     				var $notificationItem = $('<div class="notification__item">' + 'Text' + '<button class="close-button" role="button">x</button></div>');
         			$notificationItem.css({"display" : "none"}).css('opacity', 0).addClass('notification__item--show').appendTo($('.notification__container')).slideDown(500)
                                                                                                                                 .animate(
-                                                                                                                                        { opacity: 1 },
+                                                                                                                                        { opacity: 0.8 },
                                                                                                                                         { queue: false, 
                                                                                                                                           duration: 300,
-                                                                                                                                          complete: function(){
-                                                                                                                                            removeNotification($notificationItem, this.settings.showTime)
-                                                                                                                                            }
+                                                                                                                                          complete: this.removeNotification($notificationItem)
                                                                                                                                         }
                                                                                                                                      );
 
 				},
-				removeNotification: function($el, delay){
+				removeNotification: function($el){
 			        setTimeout(function(){
-			            $el.fadeOut(500, function(){
-			                this.remove();
-			            });
-			        }, delay);
+			            $el.animate(
+									{ opacity: 0 },
+									{ queue: false, 
+									duration: settings.fadeOutTime,
+									complete: function(){debugger; $(this).remove()}
+									}
+								);
+			        }, settings.showTime);
 			    }
 		});
 
 		// A really lightweight plugin wrapper around the constructor,
 		// preventing against multiple instantiations
-		$.fn[ pluginName ] = function ( options ) {
-				return this.each(function() {
-						if ( !$.data( this, "plugin_" + pluginName ) ) {
+		$.fn[ pluginName ] = function ( options, overwrite) {
+				var returnArray = [];
+				this.each(function() {
+						if ( !$.data( this, "plugin_" + pluginName ) || overwrite) {
 								$.data( this, "plugin_" + pluginName, new Notify( this, options ) );
+								returnArray.push($(this).data("plugin_" + pluginName));
 						}
 				});
+				if(returnArray.length == 1){
+					return returnArray[0];
+				}else{
+					return returnArray;
+				}
+
 		};
 
 })( jQuery, window, document );
