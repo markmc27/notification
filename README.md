@@ -1,10 +1,14 @@
 # notification
 A jQuery plugin to show notifications.
 
-TESTING IN BROWSER
+##TESTING IN BROWSER
 
-To initialise:
+**To initialise:**
+```javascript
 var n =$('body').my_notification({});
+```
 
-Add notification:
+**Add notification:**
+```javascript
 n.addNotification('Hello, world');
+```
