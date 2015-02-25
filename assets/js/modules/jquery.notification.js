@@ -39,7 +39,7 @@
 	    var _bindEvents = function() {
 	    	if(settings.hasOwnProperty('$addButton')){
 		        settings.$addButton.on("click", function(e){
-	            	addNotification();
+	            	settings.$element.addNotification();
 	        	});
 	    	}
 
@@ -70,7 +70,7 @@
 				this.settings.$element = $(element);
 				//this.settings.$container = $(element);
 
-				this.init(this);
+				this.init();
 		}
 
 		// Avoid Plugin.prototype conflicts
