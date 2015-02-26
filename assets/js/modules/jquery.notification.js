@@ -36,10 +36,10 @@
     	};
 
 		/*  Bind custom events */
-	    var _bindEvents = function() {
+	    var _bindEvents = function(notification) {
 	    	if(settings.hasOwnProperty('$addButton')){
 		        settings.$addButton.on("click", function(e){
-	            	settings.$element.addNotification();
+	            	notification.addNotification();
 	        	});
 	    	}
 
@@ -80,7 +80,7 @@
 						//easier access to settings 
 						settings = this.settings;
 
-						_bindEvents();
+						_bindEvents(this);
 				},
 				/*  Add notification method to add a notification to the container */
 				addNotification: function (message) {
